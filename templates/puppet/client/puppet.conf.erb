@@ -1,0 +1,25 @@
+# File managed by Puppet
+
+[main]
+  vardir = <%= scope.lookupvar('puppet::data_dir') %>
+  logdir = <%= scope.lookupvar('puppet::log_dir') %>
+  rundir = <%= scope.lookupvar('puppet::run_dir') %>
+  ssldir = $vardir/ssl
+  usecacheonfailure = true
+  user = <%= scope.lookupvar('puppet::process_user') %>
+  group = <%= scope.lookupvar('puppet::process_user') %>
+
+  postrun_command = "/usr/bin/mailpuppicheck -m roots@example42.com -r 2"
+
+[agent]
+  certname = <%= scope.lookupvar('clientcert') %>
+  server = <%= scope.lookupvar('puppet::server') %>
+  pluginsync = true
+  report = true
+  reportserver = <%= scope.lookupvar('puppet::server') %>
+  summarize = true
+  graph = true
+  listen = <%= scope.lookupvar('puppet::bool_listen') %>
+  runinterval = <%= scope.lookupvar('puppet::runinterval') %>
+  classfile = $vardir/classes.txt
+  localconfig = $vardir/localconfig

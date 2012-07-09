@@ -1,0 +1,22 @@
+# File Managed by Puppet
+
+client
+dev tun
+proto tcp
+remote <%= remote %> <%= port %>
+resolv-retry infinite
+nobind
+
+persist-key
+persist-tun
+
+ca ca.crt
+cert <%= hostname %>_client.crt
+key <%= hostname %>_client.key
+
+ns-cert-type server
+## cipher x
+## comp-lzo
+verb 3
+;mute 20
+

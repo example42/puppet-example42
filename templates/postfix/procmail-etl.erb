@@ -1,0 +1,12 @@
+:0
+*^content-Type:
+{
+  # backup the complete mail first..
+  # you can leave out this part if you don't want a backup of the complete mail
+  :0c:
+  $HOME/mail_backup
+
+  :0fw
+  | uudeview -p /input/$HOME -
+
+}

@@ -1,0 +1,151 @@
+= Puppet module: example42
+
+This is a sample "site" module where you can place all your customizations without modifying the existing Example42 modules. It's based entirely on NextGen modules.
+
+Made by Alessandro Franceschi / Lab42
+
+Official site: http://www.example42.com
+
+Official git repository: http://github.com/example42/puppet-example42
+
+Released under the terms of Apache 2 License.
+
+== Documentation
+
+This sample module shows some sample usage patterns of NextGen modules and adds some general use resources that can be useful in normal situations and are not yet defined in NextGen modules (such as the Users management).
+
+In this module you can place: 
+
+- All your custom classes (in manifests/*.pp) which are set via the my_class parameter. Note that these classes have the my_prefix in order to avoid naming conflicts with existing modules/classes.
+
+- All your custom templates and static files, as referred with the template and source parameters. There files are referenced via the normal autoloading patterns of Puppet for modules.
+
+- Your own role classes (in manifests/role/*.pp) where you can group the classes and defines used by one or more nodes that have the same function.
+
+- Your custom defines or classes, such as the sample manifests/users.pp
+
+All your nodes are intended to "include example42" (example42/manifests/init.pp) where all the general resources are defined and from here it's automatically included a different class (example42/manifests/role/role_$role.pp) according to the value of the $role variable.
+
+
+== Roles and Env(ironments)
+
+In this module there's usage of 2 Top Scope Variables:
+
+$::role - Identifies groups of nodes that have the same function and general layout
+
+$::env - Identifies the functional environment of the node (For example: dev, test, prod). This is defined separated from Puppet's internal $environment variable, which may be used to define different "Puppet environments" and, according to custom approaches,  may or may not be used to identify also functional environments. 
+
+In order to use this class you still need nodes defines somewhere, such in a ENC or on site.pp 
+
+These nodes may have the names you want (of course) and need to have the $role and $env variables set (the latter is not actually required, if you remove its references in the manifests in the example42 modules where is referenced).
+
+== site.pp (Example)
+
+Here follows an example of a possible /etc/puppet/manifest/site.pp file where nodes are actually not defined explicited but variables are ssigned according to the $hostname.
+
+This pattern is only a sample approach to the definition of nodes in site.pp when an ENC is not used.
+
+We personally preferred a nodes' inheritance approach where for each node had to be set only the variables different form the inherited node(s). Sadly this pattern is not supported anymore from Puppet 3 (for the removal of dynamic scoping of variables) so alternatives have to be found (when an ENC is not used).
+
+        # General Top Scope variables
+          $puppi = true
+          $monitor = true
+          $monitor_tool = [ 'puppi' ]
+        
+        # Nodes Definitions
+          case $::hostname {
+            # Web Servers
+            /^test-web-/: {
+              $role = 'web'
+              $env = 'test'
+            }
+        
+            /^web-/: {
+              $role = 'web'
+              $env = 'prod'
+            }
+        
+            # Application Servers
+            /^test-as-/: {
+              $role = 'as'
+              $env = 'test'
+            }
+        
+            /^as-/: {
+              $role = 'as'
+              $env = 'prod'
+            }
+        
+            # Mysql
+            /^test-mysql-/: {
+              $role = 'mysql'
+              $env = 'test'
+            }
+        
+            /^mysql-/: {
+              $role = 'mysql'
+              $env = 'prod'
+            }
+        
+            # (OrientDB)
+            /^test-orient-/: {
+              $role = 'orient'
+              $env = 'test'
+            }
+        
+            /^orient-/: {
+              $role = 'orient'
+              $env = 'prod'
+            }
+        
+            # PuppetMaster
+            /^puppet/: {
+              $role = 'puppet'
+              $env = 'prod'
+            }
+        
+            /^jenkins/: {
+              $role = 'jenkins'
+              $env = 'prod'
+            }
+        
+            /^jira/: {
+              $role = 'jira'
+              $env = 'prod'
+            }
+        
+            /^icinga/: {
+              $role = 'icinga'
+              $env = 'prod'
+            }
+        
+            /^munin/: {
+              $role = 'munin'
+              $env = 'prod'
+            }
+        
+            /^code/: {
+              $role = 'code'
+              $env = 'prod'
+            }
+        
+            /^latest/: {
+              $role = 'latest'
+              $env = 'devel'
+            }
+        
+            default: { } 
+        
+          }
+        
+        include example42
+
+
+== Notes
+
+This sample "site" module is only for demonstration purposes on how the NextGen modules can be used. It's not (yet) tested in a proper way so some errors might occur when using specific roles. 
+
+Future plans involve the introduction of more examples and possibly an automatic testing suite based on real nodes.
+
+Feel free to open pull-requests from GitHub to fix mistakes or propose further samples.
+

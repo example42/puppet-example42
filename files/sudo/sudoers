@@ -1,0 +1,15 @@
+# File Managed by Puppet
+#
+
+Defaults	env_reset
+
+# User privilege specification
+root	ALL=(ALL) ALL
+
+# Allow members of group sudo to execute any command after they have
+%sudo ALL=(ALL) ALL
+
+# Include /etc/sudoers.d files (the # is needed)
+
+#includedir /etc/sudoers.d
+

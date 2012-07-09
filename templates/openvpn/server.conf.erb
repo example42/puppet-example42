@@ -1,0 +1,36 @@
+# File Managed by Puppet
+
+port <%= port %>
+proto tcp-server
+dev <%= dev %>
+
+tls-server
+ca ca.crt
+cert <%= hostname %>.crt
+key <%= hostname %>.key
+dh dh1024.pem
+duplicate-cn
+
+mode server
+ifconfig 10.40.<%= network42 %>.1 10.40.<%= network42 %>.2
+ifconfig-pool 10.40.<%= network42 %>.4 10.40.<%= network42 %>.255
+push "route 10.40.<%= network42 %>.1 255.255.255.255"
+push "route 10.42.<%= network42 %>.0 255.255.255.0"
+route 10.40.<%= network42 %>.0 255.255.255.0
+
+client-config-dir ccd
+# client-to-client
+<% if network42 != '41' -%>route 10.42.41.0 255.255.255.0<% end %>
+<% if network42 != '43' -%>route 10.42.43.0 255.255.255.0<% end %>
+<% if network42 != '44' -%>route 10.42.44.0 255.255.255.0<% end %>
+
+keepalive 10 60
+inactive 0
+user <%= scope.lookupvar("openvpn::process_user") %>
+group <%= scope.lookupvar("openvpn::process_user") %>
+persist-tun
+persist-key
+verb 4 # From 0 to 15 (max)
+# comp-lzo # Compress data
+client-connect /etc/openvpn/client_connect.sh
+client-disconnect /etc/openvpn/client_disconnect.sh

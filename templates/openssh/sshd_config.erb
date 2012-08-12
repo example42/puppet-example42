@@ -37,7 +37,7 @@ PrintLastLog yes
 TCPKeepAlive no
 
 AcceptEnv LANG LC_*
-<% if osfamily == 'Debian' -%>
+<% if operatingsystem == 'Debian' or operatingsystem == 'Ubuntu' -%>
 Subsystem sftp /usr/lib/openssh/sftp-server
 <% else -%>
 Subsystem sftp /usr/libexec/openssh/sftp-server

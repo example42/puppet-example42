@@ -20,7 +20,7 @@ class example42::my_apache {
   }
 
   case $::role {
-    'puppet': { include example42::my_apache_ssl }
+#    'puppet': { include example42::my_apache_ssl }
     default: {}
   }
 

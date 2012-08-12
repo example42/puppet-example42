@@ -12,12 +12,6 @@ class example42::role::role_as {
   apache::module { 'rewrite': }
   apache::module { 'proxy': }
   apache::module { 'proxy_http': }
-  apache::module { 'proxy_html':
-    install_package => $::osfamily ? {
-      debian => 'libapache2-mod-proxy-html',
-      redhat => 'mod_proxy_html',
-    },
-  }
 
   ## Jboss
   class { 'jboss':

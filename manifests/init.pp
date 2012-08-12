@@ -3,7 +3,8 @@
 class example42 {
 
   ### USERS MANAGEMENT (quick approach)
-  include example42::users # Here are defined (but not applied) all users
+  # include example42::users # Here are defined (but not applied) all users
+  
   # Users and groups "realized" on every nodes
   User <| title == root |> # Root Password management
   User <| tag == admins |> 
@@ -33,35 +34,19 @@ class example42 {
     content  => template('example42/hosts/hosts.erb'),
   }
 
-  # Puppet 
-  # Calculated random times for puppetruns via cron (every 3 hours)
-  $rand_minute = fqdn_rand(60)
-  $rand_hour = fqdn_rand(3)
-  $rand_hour_set = $rand_hour ? {
-    '0' => '0,3,6,9,12,15,18,21',
-    '1' => '1,4,7,10,13,16,19,22',
-    '2' => '2,5,8,11,14,17,20,23',
-    default => '*', # This should never be met
-  }
-  $puppet_cron = "$rand_minute $rand_hour_set * * *"
-
-  # Client / server configuration
+  # Puppet Client / server configuration
   class { 'puppet':
-    server       => 'puppet.example42.com',
-    runmode      => 'cron',
-    croninterval => $puppet_cron,
-    croncommand  => '/usr/bin/puppet agent --onetime --ignorecache --no-usecacheonfailure',
-    postrun_command => '/usr/bin/mailpuppicheck -m roots@example42.com -r 2',
+    server          => 'puppet.example42.com',
+    # postrun_command => '/usr/bin/mailpuppicheck -m roots@example42.com -r 2',
     allow        => ['127.0.0.1','*'],
     mode         => $role ? {
       'puppet' => 'server',
       default  => 'client',
     },
-    nodetool     => 'dashboard',
+    # nodetool     => 'dashboard',
     db           => 'puppetdb',
     db_server    => 'puppet',
     db_port      => '8081',
-    firewall     => false,
   }
 
   # NTP synced via cron ntpdate
@@ -71,7 +56,7 @@ class example42 {
 
   # Disabling unneeded services (quick way)
   case $::operatingsystem {
-    'centos': {
+    /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/: {
       service { 'cgconfig': ensure => stopped , enable => false }
       service { 'iscsi': ensure => stopped , enable => false }
       service { 'iscsid': ensure => stopped , enable => false }
@@ -96,9 +81,10 @@ class example42 {
 
   # Quick yum repos management for Centos6
   case $::operatingsystem {
-    'centos': {
+    /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/: {
       class { 'yum':
-        clean_repos => true,
+        extrarepo => [ 'epel' , 'puppet_devel' ],
+#        clean_repos => true,
       }
     }
     default: {}

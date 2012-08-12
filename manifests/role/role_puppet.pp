@@ -39,18 +39,18 @@ class example42::role::role_puppet {
   }
 
   # Setup for Puppet Testing
-  include rvm
-  rvm::system_user { al: }
-  rvm_system_ruby { 
-    'ruby-1.8.7-head': ensure => present , default_use => true ;
+#  include rvm
+#  rvm::system_user { al: }
+#  rvm_system_ruby { 
+#    'ruby-1.8.7-head': ensure => present , default_use => true ;
 #    'ruby-1.9.2-head': ensure => present , default_use => false ;
 #    'ruby-1.9.3-head': ensure => present , default_use => false ;
-  }
-  rvm_gemset { 'ruby-1.8.7-head@puppet_test': ensure => present , require => Rvm_system_ruby['ruby-1.8.7-head'] }
-  rvm_gem { 'ruby-1.8.7-head@puppet_test/puppet': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
-  rvm_gem { 'ruby-1.8.7-head@puppet_test/rake': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
-  rvm_gem { 'ruby-1.8.7-head@puppet_test/puppet-lint': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
-  rvm_gem { 'ruby-1.8.7-head@puppet_test/rspec-puppet': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
-  rvm_gem { 'ruby-1.8.7-head@puppet_test/puppet-profiler': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
+#  }
+#  rvm_gemset { 'ruby-1.8.7-head@puppet_test': ensure => present , require => Rvm_system_ruby['ruby-1.8.7-head'] }
+#  rvm_gem { 'ruby-1.8.7-head@puppet_test/puppet': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
+#  rvm_gem { 'ruby-1.8.7-head@puppet_test/rake': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
+#  rvm_gem { 'ruby-1.8.7-head@puppet_test/puppet-lint': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
+#  rvm_gem { 'ruby-1.8.7-head@puppet_test/rspec-puppet': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
+#  rvm_gem { 'ruby-1.8.7-head@puppet_test/puppet-profiler': ensure => present , require => Rvm_gemset['ruby-1.8.7-head@puppet_test'] }
 
 }

@@ -52,7 +52,7 @@ class example42::users {
   @group { 'al':
     ensure     => present,
     gid        => '1999',
-    tag        => 'sladmins',
+    tag        => 'admins',
   }
 
   @user { 'joe':

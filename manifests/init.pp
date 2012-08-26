@@ -3,7 +3,7 @@
 class example42 {
 
   ### USERS MANAGEMENT (quick approach)
-  # include example42::users # Here are defined (but not applied) all users
+  include example42::users # Here are defined (but not applied) all users
   
   # Users and groups "realized" on every nodes
   User <| title == root |> # Root Password management

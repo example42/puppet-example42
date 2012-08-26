@@ -1,4 +1,7 @@
-class example42::role::role_mysql {
+#
+#
+#
+class example42::role::role_vagrant {
 
   class { 'vagrant': }
 

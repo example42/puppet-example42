@@ -55,9 +55,9 @@ class example42::users {
     tag        => 'admins',
   }
 
-  @user { 'joe':
+  @user { 'example42':
     ensure     => present,
-    comment    => 'Joe',
+    comment    => 'Example42',
     uid        => '1998',
     gid        => '1998',
     password   => '!',
@@ -65,9 +65,9 @@ class example42::users {
     groups     => 'developers',
     shell      => '/bin/bash',
     tag        => 'developers',
-    require    => [ Group['developers'] , Group['joe'] ],
+    require    => [ Group['developers'] , Group['example42'] ],
   }
-  @group { 'joe':
+  @group { 'example42':
     ensure     => present,
     gid        => '1998',
     tag        => 'developers',

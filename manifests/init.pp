@@ -83,7 +83,7 @@ class example42 {
   case $::operatingsystem {
     /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/: {
       class { 'yum':
-        extrarepo => [ 'epel' , 'puppet_devel' ],
+        extrarepo => [ 'epel' , 'puppet' ],
 #        clean_repos => true,
       }
     }

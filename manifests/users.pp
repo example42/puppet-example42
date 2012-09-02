@@ -34,27 +34,9 @@ class example42::users {
     password   => '$6$vBEPA3af$RFqXswJnXqzAoLQ6eLNnRWKJNGq6Ic1yulsRUt2l199V8aMbEvgeUwgrwqD59tbs4UpoaY1C.fWt.3zVzVs570',
   }
 
-  # HUMANS
+  # USERS
   # UIDs of new users decrease from the "starting" 1999 to avoid
   # conflicts with manually added users
-  @user { 'al':
-    ensure     => present,
-    comment    => 'Al',
-    uid        => '1999',
-    gid        => '1999',
-    password   => '!',
-    managehome => true,
-    groups     => 'admins',
-    shell      => '/bin/bash',
-    tag        => 'admins',
-    require    => [ Group['admins'] , Group['al'] ],
-  }
-  @group { 'al':
-    ensure     => present,
-    gid        => '1999',
-    tag        => 'admins',
-  }
-
   @user { 'example42':
     ensure     => present,
     comment    => 'Example42',

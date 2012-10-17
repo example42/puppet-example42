@@ -37,42 +37,33 @@ class example42::users {
   # USERS
   # UIDs of new users decrease from the "starting" 1999 to avoid
   # conflicts with manually added users
-  @user { 'example42':
-    ensure     => present,
-    comment    => 'Example42',
-    uid        => '1998',
-    gid        => '1998',
-    password   => '!',
-    managehome => true,
-    groups     => 'developers',
-    shell      => '/bin/bash',
-    tag        => 'developers',
-    require    => [ Group['developers'] , Group['example42'] ],
-  }
-  @group { 'example42':
-    ensure     => present,
-    gid        => '1998',
-    tag        => 'developers',
+
+  @user::managed { 'example42':
+    ensure             => present,
+    name_comment       => 'Example42 Sample User',
+    uid                => '1998',
+    # password           => $secret::user_password_example42,
+    # password_crypted   => true,
+    managehome         => true,
+    groups             => 'developers',
+    tag                => 'developers',
+    # sshkey_source      => "example42/user/pubkeys/example42",
+    # bashprofile_source => "example42/user/bashprofile",
+    manage_group       => true,
   }
 
   # User Jenkins is used by remote deploys from Jenkins
   # Password: jenkins!
-  @user { 'jenkins':
-    ensure     => present,
-    comment    => 'Jenkins Deployments',
-    uid        => '1997',
-    gid        => '1997',
-    password   => '$6$1p7JJ9.g$iBXOGjIO1EuQVuWI7o/0sh93I0pgml47pmMl6y.EMetovZie50/MjTOmrHbvKjOA6OpuMC8.uFIceUidB2GLe1',
-    managehome => true,
-    groups     => 'deployers',
-    shell      => '/bin/bash',
-    tag        => 'deployers',
-    require    => [ Group['deployers'] , Group['jenkins'] ],
-  }
-  @group { 'jenkins':
-    ensure     => present,
-    gid        => '1997',
-    tag        => 'deployers',
+  @user::managed { 'jenkins':
+    ensure             => present,
+    name_comment       => 'Jenkins Deployments',
+    uid                => '1997',
+    password           => '$6$1p7JJ9.g$iBXOGjIO1EuQVuWI7o/0sh93I0pgml47pmMl6y.EMetovZie50/MjTOmrHbvKjOA6OpuMC8.uFIceUidB2GLe1',
+    managehome         => true,
+    groups             => 'deployers',
+    tag                => 'deployers',
+    password_crypted   => true,
+    manage_group       => true,
   }
 
 }

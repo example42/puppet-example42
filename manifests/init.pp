@@ -7,14 +7,21 @@ class example42 {
   
   # Users and groups "realized" on every nodes
   User <| title == root |> # Root Password management
-  User <| tag == admins |> 
-  User <| tag == developers |> 
+  User::Managed <| tag == admins |> 
+  User::Managed <| tag == developers |> 
   Group <| tag == admins |>
   Group <| tag == developers |> 
 
   # OpenSSH custom template
   class { 'openssh': 
     template => 'example42/openssh/sshd_config.erb',
+  }
+
+  # Vim with pathogen for all
+  class { 'vim':
+  }
+  vim::userconfig { 'example42':
+    install_pathogen => true,
   }
 
   # DNS configuration
@@ -25,7 +32,6 @@ class example42 {
       'rotate'  => '',
       'timeout' => '2',
     },
-    firewall => false,
   }
 
   # Quick /etc/hosts
@@ -39,15 +45,38 @@ class example42 {
     server          => 'puppet.example42.com',
     # postrun_command => '/usr/bin/mailpuppicheck -m roots@example42.com -r 2',
     allow        => ['127.0.0.1','*'],
-    mode         => $role ? {
+    mode         => $::role ? {
       'puppet' => 'server',
       default  => 'client',
     },
+    runmode      => 'manual',
     # nodetool     => 'dashboard',
     db           => 'puppetdb',
     db_server    => 'puppet',
     db_port      => '8081',
   }
+
+  # Mcollective Infrastructure
+  # Stomp server is mq.example42.com
+  # Mcollective Client is on the PuppetMaster
+  class { 'mcollective':
+    stomp_host           => 'mq.example42.com',
+    stomp_user           => 'mcollective',
+    stomp_password       => 'private_server',
+    stomp_admin          => 'admin',
+    stomp_admin_password => 'private_client',
+    psk                  => 'aSecretPreSharedKey',
+    install_client       => $::role ? {
+      'puppet'     => true,
+      default     => false,
+    },
+    install_stomp_server => $::role ? {
+      mq      => true,
+      default => false,
+    },
+  }
+
+
 
   # NTP synced via cron ntpdate
   class { 'ntp':

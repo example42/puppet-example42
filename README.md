@@ -1,4 +1,4 @@
-= Puppet module: example42
+# Puppet module: example42
 
 This is a sample "site" module where you can place all your customizations without modifying the existing Example42 modules. It's based entirely on NextGen modules.
 
@@ -10,7 +10,7 @@ Official git repository: http://github.com/example42/puppet-example42
 
 Released under the terms of Apache 2 License.
 
-== Documentation
+## Documentation
 
 This sample module shows some sample usage patterns of NextGen modules and adds some general use resources that can be useful in normal situations and are not yet defined in NextGen modules (such as the Users management).
 
@@ -27,7 +27,7 @@ In this module you can place:
 All your nodes are intended to "include example42" (example42/manifests/init.pp) where all the general resources are defined and from here it's automatically included a different class (example42/manifests/role/role_$role.pp) according to the value of the $role variable.
 
 
-== Roles and Env(ironments)
+## Roles and Env(ironments)
 
 In this module there's usage of 2 Top Scope Variables:
 
@@ -39,7 +39,7 @@ In order to use this class you still need nodes defines somewhere, such in a ENC
 
 These nodes may have the names you want (of course) and need to have the $role and $env variables set (the latter is not actually required, if you remove its references in the manifests in the example42 modules where is referenced).
 
-== site.pp (Example)
+## site.pp (Example)
 
 Here follows an example of a possible /etc/puppet/manifest/site.pp file where nodes are actually not defined explicited but variables are ssigned according to the $hostname.
 
@@ -141,7 +141,7 @@ We personally preferred a nodes' inheritance approach where for each node had to
         include example42
 
 
-== Notes
+## Notes
 
 This sample "site" module is only for demonstration purposes on how the NextGen modules can be used. It's not (yet) tested in a proper way so some errors might occur when using specific roles. 
 

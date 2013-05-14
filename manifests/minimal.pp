@@ -12,9 +12,11 @@ case $::osfamily {
     package { 'redhat-lsb': ensure => present }
   }
   debian: {
-    include apt
+    class { 'apt':
+      force_aptget_update => true,
+    }
     package { 'lsb-release': ensure => present }
-  }
+}
   suse: {
     package { 'lsb': ensure => present }
   }

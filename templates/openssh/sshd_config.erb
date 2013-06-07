@@ -16,7 +16,8 @@ LogLevel INFO
 
 # Authentication:
 LoginGraceTime 120
-PermitRootLogin yes
+PermitRootLogin <%= scope.function_options_lookup(['PermitRootLogin','no'])%>
+Banner <%= scope.function_options_lookup(['Banner','none']) %>
 StrictModes yes
 
 RSAAuthentication yes

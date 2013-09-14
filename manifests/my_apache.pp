@@ -2,7 +2,7 @@
 #
 # This is a sample apache custom class
 # It adds a general, or per role, htpasswd
-# and a index.html blank page, if not present
+# and a index.html blank page, if not present
 #
 class example42::my_apache {
 

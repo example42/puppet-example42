@@ -36,7 +36,7 @@ class example42::users {
 
   # USERS
   # UIDs of new users decrease from the "starting" 1999 to avoid
-  # conflicts with manually added users
+  # conflicts with manually added users
 
   @user::managed { 'example42':
     ensure             => present,
@@ -52,7 +52,7 @@ class example42::users {
     manage_group       => true,
   }
 
-  # User Jenkins is used by remote deploys from Jenkins
+  # User Jenkins is used by remote deploys from Jenkins
   # Password: jenkins!
   @user::managed { 'jenkins':
     ensure             => present,
